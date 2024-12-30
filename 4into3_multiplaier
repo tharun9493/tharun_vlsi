@@ -1,0 +1,49 @@
+
+module _4into3_multiplaier_data_flow(
+    input [0:2] a, 
+    input [0:3] b,
+    inout [0:7] s,
+    inout cin,
+    output [0:6] c,
+    inout [0:8] cout,
+    inout [0:8]i,j
+    
+    );
+  assign c[0]=a[0]&b[0];
+  assign i[0]=a[0]&b[1];
+  assign i[1] =a[0]&b[2];
+  assign i[2]=a[0]&b[3];
+  assign i[3]=a[1]&b[0];
+    assign i[4]=a[1]&b[1];
+     assign i[5]=a[1]&b[2];
+      assign i[6]=a[1]&b[3];
+   assign i[7]=1'b0;
+      
+      
+      assign j[0]=a[2]&b[0];
+      assign j[1]=a[2]&b[1];
+      assign j[2]=a[2]&b[2];
+      assign j[3]=a[2]&b[3];
+      
+      
+      
+four_bit_parall_adder b1(i[0],i[1],cin,s[0],cout[0]);
+  four_bit_parall_adder b2(i[2],i[7],c[0],s[1],cout[1]);
+  four_bit_parall_adder b3(i[3],i[4],c[1],s[2],cout[2]);
+  four_bit_parall_adder b4(i[5],i[6],c[2],s[3],cout);
+     
+     four_bit_parall_adder b5(s[1],s[2],cin,s[4],cout[4]);
+     four_bit_parall_adder b6(s[3],s[4],cout[4],s[5],cout[5]);
+     four_bit_parall_adder b7(j[0],j[1],cout[5],s[6],cout[6]);
+    four_bit_parall_adder  b8(j[2],j[3],cout[6],s[7],cout[7]);
+  
+      
+    
+    
+    endmodule 
+
+v
+
+
+
+    
