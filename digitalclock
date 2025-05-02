@@ -1,0 +1,40 @@
+module DigitalClock (
+    input clk, reset,
+    output reg [5:0] sec, min,
+    output reg [4:0] hr
+);
+
+    // State definition
+    typedef enum logic [1:0] {IDLE, COUNTING, RESET_STATE} state_t;
+    state_t state;
+
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            sec <= 6'b0;
+            min <= 6'b0;
+            hr  <= 5'b0;
+            state <= RESET_STATE;
+        end else begin
+          case (state)
+          IDLE: begin
+          state <= COUNTING;
+           end
+           COUNTING: begin
+           if (sec == 59) begin
+           sec <= 0;
+           if (min == 59) begin
+           min <= 0;
+           if (hr == 23) hr <= 0;
+           else hr <= hr + 1;
+           end else min <= min + 1;
+           end else sec <= sec + 1;
+           end
+           RESET_STATE: begin
+           sec <= 0; min <= 0; hr <= 0;
+           state <= COUNTING;
+           end
+          endcase
+        end
+    end
+
+endmodule
